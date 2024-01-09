@@ -1,0 +1,71 @@
+﻿@*@{
+    ViewData["Title"] = "Home Page";
+}
+*@
+@*<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+*@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image to Base64 Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        #imagePreview {
+            max-width: 100%;
+            max-height: 300px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Image to Base64 Converter</h2>
+
+    <input type="file" id="imageInput" accept="image/*">
+    <button onclick="convertToBase64()">Convert to Base64</button>
+
+    <div id="imagePreview"></div>
+    <textarea id="base64Output" rows="10" style="width:500px;" readonly></textarea>
+
+    <script>
+        function convertToBase64() {
+            var fileSizeLimitMB = 1;
+            var fileSizeLimitBytes = fileSizeLimitMB * 1024 * 1024; // 1MB in bytes
+            var input = document.getElementById('imageInput');
+            var preview = document.getElementById('imagePreview');
+            var output = document.getElementById('base64Output');
+
+            var file = input.files[0];
+            if (file.size > fileSizeLimitBytes) {
+                alert('File size exceeds the limit of 1MB. Please choose a smaller file.');
+                return;
+            }
+
+            if (file) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    preview.innerHTML = '<img src="' + e.target.result + '" alt="Image Preview">';
+                    output.value = e.target.result;
+
+                    console.log(e.target);
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                alert('Please select an image file.');
+            }
+        }
+    </script>
+</body>
+</html>
